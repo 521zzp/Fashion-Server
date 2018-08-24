@@ -1,4 +1,4 @@
-// var poetry = require("./poetry");
+var home = require("./home");
 // var violin = require("./violin");
 // var article = require("./article");
 // var login = require("./login");
@@ -25,5 +25,6 @@ module.exports =  function(app){
     
     
   // });
+  home(app);
   
 }
