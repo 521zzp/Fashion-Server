@@ -1,5 +1,6 @@
 import { GET_STORE_LIST }  from "../config/url";
 import { resultWrap } from '../utils/net'
+import { pool } from '../utils/db'
 
 import Mock from 'mockjs'
 
@@ -8,8 +9,10 @@ import Mock from 'mockjs'
 
 module.exports = function (app) {
   
+  console.log(GET_STORE_LIST)
+
   app.get(GET_STORE_LIST, function (req, res) {
-    const data = Mock.mock({
+    /*const data = Mock.mock({
         "list|10-20" : [
           {
             'group|1': [
@@ -44,6 +47,7 @@ module.exports = function (app) {
             ],   // 大类
             'store|1': [ '嘉定白银路店', '徐汇店', '松江店', '宝山店', '浦东店', '虹口店' ],  // 门店
             'store_id': '@guid',
+            'product_order': '@integer(1, 10)', //组内排序
             'name': '@cword(3, 10)',  // 名称
             'original_price': '@integer(60, 500)',  // 原价
             'now_price': '@integer(30, 250)',   // 现价
@@ -53,11 +57,39 @@ module.exports = function (app) {
             'product_order': '@integer(1, 10)'
           }
         ]
+    })*/
+    console.log('查询项目列表')
+    // 从连接池拿到连接
+    const resourcePromise = pool.acquire();
+    resourcePromise.then(async function(db) {
+      const co = db.db('pujin').collection('product')
+      const list = await new Promise((resolve,reject) => {
+        co.find().toArray(function (err, result){
+          if (err) {
+            reject(resultWrap({}, '系统异常，请稍后再试', false))
+          } else {
+            console.log(result)
+            if (result.length>0) {
+                  result.sort((a, b) => a.group.order - b.group.order )
+                  resolve(resultWrap(result))
+                } else {
+                  resolve(resultWrap({}, '当前无记录！'))
+                }
+          }
+
+        })
+      })
+      pool.release(db);
+      console.log('list', list)
+      res.send(list)
     })
 
-    data.list.sort((a, b) => a.group.order - b.group.order )
 
-    res.send(resultWrap(data));
+
+
+    /*data.list.sort((a, b) => a.group.order - b.group.order )
+
+    res.send(resultWrap(data));*/
   });
   
   /*app.get(ACC_AREA_SUPPORT, function (req, res) {

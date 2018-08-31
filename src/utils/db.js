@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-import { MONGODB_USER, MONGODB_PWD, MONGODB_IP, MONGODB_PORT, MONGODB_DB } from '../config/config'
+import { MONGODB_USER, MONGODB_PWD, MONGODB_IP, MONGODB_PORT, MONGODB_DB } from '../config/db-config'
 var generic = require('generic-pool');
 var url = `mongodb://${MONGODB_USER}:${MONGODB_PWD}@${MONGODB_IP}:${MONGODB_PORT}${MONGODB_DB}`;
 import { resultWrap } from '../utils/net'
