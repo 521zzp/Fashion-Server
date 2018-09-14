@@ -1,4 +1,9 @@
 var home = require("./home");
+
+// admin
+var storeManage = require("./admin/storeManage");
+var productManage = require("./admin/productManage");
+
 // var violin = require("./violin");
 // var article = require("./article");
 // var login = require("./login");
@@ -26,5 +31,9 @@ module.exports =  function(app){
     
   // });
   home(app);
+
+  // admin
+  storeManage(app);
+  productManage(app);
   
 }

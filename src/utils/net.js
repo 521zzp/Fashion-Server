@@ -1,6 +1,7 @@
 
-export const resultWrap = (datas, msg = '成功', type = 200 ) => {
+export const resultWrap = (datas, msg = '成功', type = 200, status = true ) => {
 	return {
+		status: status,
 		code: type,
 		message: msg,
 		result: Array.isArray(datas) ? { list: datas } : datas
