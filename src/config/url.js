@@ -38,3 +38,5 @@ export const STORE_STATUS_CHANGE = ADMIN + '/store/status/change' // 门店状�
  */
 export const PRODUCT_MANAGE_LIST = ADMIN + '/product/list'
 export const PRO_STORE_OPTIONS = ADMIN + '/product/store/options'
+export const PRO_IMAGE_UPLOAD = ADMIN + '/product/image/upload'       // 产品图片上传
+export const PRO_INFO_SAVE = ADMIN + '/product/info/save'             // 新增 or 更新产品信息
